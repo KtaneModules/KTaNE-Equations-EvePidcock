@@ -13,13 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: equations
   title: Equations
-  description: 'Solve a system of equations for a specific variable.
-
-
-    Manual links coming soon
-
-
-    Module Idea and Development: AAces'
+  description: "Solve a system of equations for a specific variable.\n\nModule ID:
+    equations\n\nManual HTML: https://ktane.timwi.de/HTML/Equations.html\nManual PDF:
+    https://ktane.timwi.de/PDF/Equations.pdf \n\nModule Idea and Development: AAces"
   version: 1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 03261bdb6d778dd46974ad96f083001c, type: 3}
