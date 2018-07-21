@@ -17,10 +17,10 @@ public class equations : MonoBehaviour {
     private int _moduleId = 0;
     private bool _isSolved = false, _lightsOn = false, isEnd = false;
 
-    public KMSelectable clear, submit, deci, plusminus;
+    public KMSelectable clear, submit, deci, negative;
     public KMSelectable[] keys;
 
-    private bool decimalAlone, decimalActive, usingX, strikeCo = false;
+    private bool decimalAlone, decimalActive, usingX, strikeCo = false, negAlone;
 
     private static double nothing = -1000000.17;
 
@@ -65,9 +65,9 @@ public class equations : MonoBehaviour {
             handleDecimalPress();
             return false;
         };
-        plusminus.OnInteract += delegate ()
+        negative.OnInteract += delegate ()
         {
-            handlePlusMinusPress();
+            handleNegativePress();
             return false;
         };
         for (double i = 0; i < 10; i++)
@@ -89,6 +89,7 @@ public class equations : MonoBehaviour {
         decimalActive = false;
         decimalAlone = false;
         decimalIndex = 10;
+        negAlone = false;
         Debug.LogFormat("[Equations #{0}] Clear pressed.", _moduleId);
         RenderScreen();
     }
@@ -135,17 +136,20 @@ public class equations : MonoBehaviour {
         RenderScreen();
     }
 
-    void handlePlusMinusPress()
+    void handleNegativePress()
     {
-        newAudio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, plusminus.transform);
+        newAudio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, negative.transform);
         if (!_lightsOn || _isSolved || isEnd) return;
-        if (displayNumber == nothing)
+        if (displayNumber == nothing || displayNumber == 0)
         {
-            return;
+            negAlone = !negAlone;
         }
-        displayNumber *= -1;
+        else
+        {
+            displayNumber *= -1;
+        }
         RenderScreen();
-        Debug.LogFormat("[Equations #{0}] Plus/Minus pressed. Number displayed is now {1}.", _moduleId, displayNumber);
+        Debug.LogFormat("[Equations #{0}] Negative pressed. Number displayed is now {1}.", _moduleId, displayNumber);
     }
 
     void handleKeyPress(double key)
@@ -160,14 +164,17 @@ public class equations : MonoBehaviour {
                 displayNumber = 0;
             }
             displayNumber *= 10;
-            displayNumber += key;
+            if (displayNumber < 0 || negAlone)
+            {
+                displayNumber -= key;
+            } else { displayNumber += key; }
         } else
         {
             if (decimalAlone)
             {
                 decimalAlone = false;
             }
-            if (displayNumber >= 0)
+            if (displayNumber >= 0 && !negAlone)
             {
                 displayNumber += (key / decimalIndex);
             } else
@@ -176,6 +183,7 @@ public class equations : MonoBehaviour {
             }
             decimalIndex *= 10;
         }
+        if (negAlone && key != 0) { negAlone = false; }
         Debug.LogFormat("[Equations #{0}] {1} pressed. Number displayed is now {2}.", _moduleId, key, displayNumber);
         RenderScreen();
     }
@@ -245,7 +253,12 @@ public class equations : MonoBehaviour {
 
     void RenderScreen()
     {
-        if(displayNumber == nothing)
+        if (negAlone)
+        {
+            screenText.text = "-";
+            return;
+        }
+        if (displayNumber == nothing)
         {
             screenText.text = "";
             return;
@@ -557,7 +570,7 @@ public class equations : MonoBehaviour {
             { '7', keys[7] },
             { '8', keys[8] },
             { '9', keys[9] },
-            { '-', plusminus },
+            { '-', negative },
             { '.', deci }        
         };
 
@@ -567,24 +580,12 @@ public class equations : MonoBehaviour {
         if (split.Length == 1 && split[0] == "clear") { return new KMSelectable[] { clear }; }
         
         if (split.Length == 2 && split[0] == "submit" && Regex.IsMatch(split[1], @"^[-.0-9]+$")) {
-
-            if (split[1].StartsWith("-"))
-            {
-                return split[1].Select(c => buttons[c]).Concat(new[] { plusminus }).Concat(new[] { submit }).ToArray();
-            } else
-            {
-                return split[1].Select(c => buttons[c]).Concat(new[] { submit }).ToArray();
-            }
+            handlePressClear();
+            return split[1].Select(c => buttons[c]).Concat(new[] { submit }).ToArray();
         }
         if (split.Length == 1 && Regex.IsMatch(split[0], @"^[-.0-9]+$")) {
-            if (split[0].StartsWith("-"))
-            {
-                return split[0].Select(c => buttons[c]).Concat(new[] { plusminus }).ToArray();
-            }
-            else
-            {
-                return split[0].Select(c => buttons[c]).ToArray();
-            }
+            handlePressClear();
+            return split[0].Select(c => buttons[c]).ToArray();
         }
         return null;
     }
