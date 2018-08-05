@@ -389,7 +389,7 @@ public class equations : MonoBehaviour {
                 }
             case 2:
                 x = (d - c);
-                if (a == 0 && !usingX) { return nothing; }
+                if (a == 0) { return nothing; }
                 y = ((d - c + d) / a);
                 if (usingX)
                 {
