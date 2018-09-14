@@ -98,19 +98,20 @@ public class equations : MonoBehaviour {
     {
         newAudio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, submit.transform);
         if (!_lightsOn || _isSolved || isEnd) return;
-        if (displayNumber == correctNumber || displayNumber == correctNumberShort || (decimalIndex>=10000 && correctNumber.ToString().StartsWith(displayNumber.ToString())))
+        double input = displayNumber;
+        if (input == correctNumber || input == correctNumberShort || (decimalIndex>=10000 && correctNumber.ToString().StartsWith(input.ToString())))
         {
             isEnd = true;
             strikeCo = false;
             StartCoroutine(end());
-            Debug.LogFormat("[Equations #{0}] Solved with answer: "+(displayNumber == nothing ? "-blank screen-" : "{1}")+".", _moduleId, displayNumber);
+            Debug.LogFormat("[Equations #{0}] Solved with answer: "+(input == nothing ? "-blank screen-" : "{1}")+".", _moduleId, input);
 
         } else
         {
             isEnd = true;
             StartCoroutine(end());
             strikeCo = true;
-            Debug.LogFormat("[Equations #{0}] Inputed answer: " + (displayNumber == nothing ? "-blank screen-" : "{1}") + ", correct answer: " + (correctNumber == nothing ? "-blank screen, system has no solution-." : "{2}."), _moduleId, displayNumber.ToString(), correctNumber.ToString());
+            Debug.LogFormat("[Equations #{0}] Inputed answer: " + (input == nothing ? "-blank screen-" : "{1}") + ", correct answer: " + (correctNumber == nothing ? "-blank screen, system has no solution-." : "{2}."), _moduleId, input.ToString(), correctNumber.ToString());
             Debug.LogFormat("[Equations #{0}] If you feel that this is a mistake, please do not hesitate to contact @AAces#0908 on discord so we can get this sorted out. Be sure to have a copy of this log file handy.", _moduleId);
 
         }
@@ -132,7 +133,6 @@ public class equations : MonoBehaviour {
                 }
             }
         }
-        Debug.LogFormat("[Equations #{0}] Decimal pressed. Number displayed is now {1}.", _moduleId, displayNumber);
         RenderScreen();
     }
 
@@ -149,7 +149,6 @@ public class equations : MonoBehaviour {
             displayNumber *= -1;
         }
         RenderScreen();
-        Debug.LogFormat("[Equations #{0}] Negative pressed. Number displayed is now {1}.", _moduleId, displayNumber);
     }
 
     void handleKeyPress(double key)
@@ -184,7 +183,6 @@ public class equations : MonoBehaviour {
             decimalIndex *= 10;
         }
         if (negAlone && key != 0) { negAlone = false; }
-        Debug.LogFormat("[Equations #{0}] {1} pressed. Number displayed is now {2}.", _moduleId, key, displayNumber);
         RenderScreen();
     }
 
