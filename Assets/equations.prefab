@@ -4318,13 +4318,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cf9c728b7e4d846a1fe5908656d08b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newAudio: {fileID: 114649861478763970}
-  module: {fileID: 114142048081636484}
-  info: {fileID: 114522723444007910}
   clear: {fileID: 114408023595306056}
   submit: {fileID: 114329993948869396}
   deci: {fileID: 114562247705071472}
   negative: {fileID: 114372898866855140}
+  info: {fileID: 114522723444007910}
+  keyColors:
+  - {fileID: 2100000, guid: fe14ba236e21a8241b29775c84e8551d, type: 2}
+  - {fileID: 2100000, guid: 5ab0d80a7f7fec04ebefd37b213862e4, type: 2}
+  - {fileID: 2100000, guid: a0eb7f0b783123e44b6a81f2a285f287, type: 2}
+  - {fileID: 2100000, guid: 21a6d3b8ba991ff4785c5604cf598b99, type: 2}
+  - {fileID: 2100000, guid: 97ca0d8005e86df4c8f4c69864498873, type: 2}
   keys:
   - {fileID: 114153804765094744}
   - {fileID: 114371107157211046}
@@ -4336,18 +4340,14 @@ MonoBehaviour:
   - {fileID: 114051317749531514}
   - {fileID: 114090989188378472}
   - {fileID: 114566085036606878}
-  keyColors:
-  - {fileID: 2100000, guid: fe14ba236e21a8241b29775c84e8551d, type: 2}
-  - {fileID: 2100000, guid: 5ab0d80a7f7fec04ebefd37b213862e4, type: 2}
-  - {fileID: 2100000, guid: a0eb7f0b783123e44b6a81f2a285f287, type: 2}
-  - {fileID: 2100000, guid: 21a6d3b8ba991ff4785c5604cf598b99, type: 2}
-  - {fileID: 2100000, guid: 97ca0d8005e86df4c8f4c69864498873, type: 2}
+  LEDOn: {fileID: 2100000, guid: 5975f8944c393424484e748ff44c64a6, type: 2}
+  LEDOff: {fileID: 2100000, guid: 7e5f2aff0dab5ce4482517c2f3ce71b7, type: 2}
   leds:
   - {fileID: 23536655430304496}
   - {fileID: 23608791704208592}
   - {fileID: 23711500110203886}
-  LEDOn: {fileID: 2100000, guid: 5975f8944c393424484e748ff44c64a6, type: 2}
-  LEDOff: {fileID: 2100000, guid: 7e5f2aff0dab5ce4482517c2f3ce71b7, type: 2}
+  module: {fileID: 114142048081636484}
+  newAudio: {fileID: 114649861478763970}
   screenText: {fileID: 102812387476154236}
 --- !u!114 &114979771198869338
 MonoBehaviour:
