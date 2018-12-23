@@ -32,6 +32,9 @@ public class equations : MonoBehaviour {
     public KMBombModule module;
     public KMAudio newAudio;
 
+    public TextMesh[] cbText;
+    public GameObject cbObj;
+
     private int oneColor, fiveColor, nineColor;
 
     public TextMesh screenText;
@@ -88,7 +91,7 @@ public class equations : MonoBehaviour {
         newAudio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, submit.transform);
         if (!_lightsOn || _isSolved || isEnd) return;
         var input = displayNumber;
-        if (input == correctNumber || input == correctNumberShort || decimalIndex >= 10000 && correctNumber.ToString().StartsWith(input.ToString())) {
+        if (input == correctNumber || input == correctNumberShort || Math.Abs(input-correctNumber)<=0.1 || (decimalIndex >= 10000 && correctNumber.ToString().StartsWith(input.ToString()))) {
             isEnd = true;
             strikeCo = false;
             StartCoroutine(end());
@@ -195,6 +198,10 @@ public class equations : MonoBehaviour {
         } else {
             Debug.LogFormat("[Equations #{0}] Correct answer: " + (correctNumber == nothing ? "-blank screen, system has no solution-." : "{1}."), _moduleId, correctNumber.ToString());
         }
+        cbObj.SetActive(false);
+        if (GetComponent<KMColorblindMode>().ColorblindModeActive) {
+            cbObj.SetActive(true);
+        }
     }
 
     private void RenderScreen() {
@@ -228,18 +235,23 @@ public class equations : MonoBehaviour {
             {
                 case 0:
                     blueCount++;
+                    cbText[x].text = "B";
                     break;
                 case 1:
                     redCount++;
+                    cbText[x].text = "R";
                     break;
                 case 2:
                     pinkCount++;
+                    cbText[x].text = "P";
                     break;
                 case 3:
                     yellowCount++;
+                    cbText[x].text = "Y";
                     break;
                 case 4:
                     greenCount++;
+                    cbText[x].text = "G";
                     break;
             }
 
@@ -445,7 +457,12 @@ public class equations : MonoBehaviour {
             {'.', deci}
         };
 
-        var split = input.ToLowerInvariant().Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+        if (input.Trim().ToLowerInvariant() == "colorblind") {
+            cbObj.SetActive(true);
+            return new KMSelectable[0];
+        }
+
+        var split = input.Trim().ToLowerInvariant().Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
         if (split.Length == 1 && split[0] == "submit") return new[] {submit};
         if (split.Length == 1 && split[0] == "clear") return new[] {clear};
