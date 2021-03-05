@@ -101,7 +101,7 @@ public class equations : MonoBehaviour {
             StartCoroutine(end());
             strikeCo = true;
             Debug.LogFormat("[Equations #{0}] Inputed answer: " + (input == nothing ? "-blank screen-" : "{1}") + ", correct answer: " + (correctNumber == nothing ? "-blank screen, system has no solution-." : "{2}."), _moduleId, input.ToString(), correctNumber.ToString());
-            Debug.LogFormat("[Equations #{0}] If you feel that this is a mistake, please do not hesitate to contact @AAces#0908 on discord so we can get this sorted out. Be sure to have a copy of this log file handy.", _moduleId);
+            Debug.LogFormat("[Equations #{0}] If you feel that this is a mistake, please do not hesitate to contact @AAces#2652 on discord so we can get this sorted out. Be sure to have a copy of this log file handy.", _moduleId);
         }
     }
 
